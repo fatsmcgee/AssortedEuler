@@ -12,7 +12,8 @@ namespace Euler80
         static int Euler80()
         {
             HashSet<int> squares = new HashSet<int> { 1, 4, 9, 16, 25, 36, 49, 64, 81, 100 };
-            return Enumerable.Range(1, 100).Where(i => !squares.Contains(i)).Select(i => First100DigitsOfRoot(i).Sum()).Sum();
+            return Enumerable.Range(1, 100).Where(i => !squares.Contains(i))
+                .Select(i => First100DigitsOfRoot(i).Sum()).Sum();
 
         }
         static List<int> First100DigitsOfRoot(int n)
@@ -24,10 +25,11 @@ namespace Euler80
             BigInteger top = 0;
             BigInteger inner = n;
             
-            for (ulong i = 0; i < 100; i++)
+            for (int i = 0; i < 100; i++)
             {
                 BigInteger divideBy = top * 2 * 10;
-                var nextDigit = Enumerable.Range(0, 10).Select(d => (BigInteger)d).First(d => d * (divideBy + d) <= inner && (d + 1) * (divideBy + d + 1) > inner);
+                var nextDigit = Enumerable.Range(0, 10).Select(d => (BigInteger)d)
+                    .First(d => d * (divideBy + d) <= inner && (d + 1) * (divideBy + d + 1) > inner);
                 digits.Add((int)nextDigit);
                 divideBy = divideBy + nextDigit;
 
