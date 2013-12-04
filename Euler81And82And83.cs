@@ -45,7 +45,7 @@ namespace Euler81
             return gg;
         }
 
-        public IEnumerable<Tuple<int, int>> GetNeighbors(Tuple<int, int> node,int m, int n)
+        private IEnumerable<Tuple<int, int>> GetNeighbors(Tuple<int, int> node,int m, int n)
         {
             if (node.Item1 != m - 1 && directions[(int)Direction.Down])
                 yield return Tuple.Create(node.Item1 + 1, node.Item2);
@@ -149,12 +149,12 @@ namespace Euler81
 
 
             //Euler 81:
-            var gg = GridGraph.ReadFromText(@"C:\Users\gumpy\Desktop\Euler\matrix.txt", Direction.Right, Direction.Down, Direction.Up);
-            var ans = gg.ShortestPathLeftColumn();
+            //var gg = GridGraph.ReadFromText(@"C:\Users\gumpy\Desktop\Euler\matrix.txt", Direction.Right, Direction.Down, Direction.Up);
+            //var ans = gg.ShortestPathLeftColumn();
 
             //Euler 82:
-            //var gg = GridGraph.ReadFromText(@"C:\Users\gumpy\Desktop\Euler\matrix.txt", Direction.Right, Direction.Down,Direction.Up,Direction.Left);
-            //var ans = gg.ShortestPath();
+            var gg = GridGraph.ReadFromText(@"C:\Users\gumpy\Desktop\Euler\matrix.txt", Direction.Right, Direction.Down,Direction.Up,Direction.Left);
+            var ans = gg.ShortestPath();
             s.Stop();
 
             Console.WriteLine("Answer is {0}. Elapsed time is {1} seconds.", ans,s.Elapsed.TotalSeconds);
