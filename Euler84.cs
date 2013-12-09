@@ -69,18 +69,20 @@ namespace MonopolySimulation
         
         private Random random;
         private int dieSides;
-        private Queue<Tuple<int, int>> lastTwoRolls;
+
         private Queue<ChanceCards> chanceQueue;
         private Queue<CommunityChestCards> communityChestQueue;
 
         public Dictionary<int, int> SquareHistogram { get; private set; }
 
         private int square;
+        private int doublesCount;
 
         private static readonly int GO_TO_JAIL = 30;
         private static readonly int JAIL = 10;
         private static readonly int[] CC = {2, 17, 33};
         private static readonly int[] CHANCE = {7, 22, 36};
+        //not including railroad and utilities
         private static readonly int[] RAILROADS = {5, 15, 25, 35};
         private static readonly int[] UTILITIES = {12, 28};
 
@@ -88,7 +90,7 @@ namespace MonopolySimulation
         public void Reset()
         {
             random = new Random();
-            lastTwoRolls = new Queue<Tuple<int, int>>();
+            doublesCount = 0;
             SquareHistogram = new Dictionary<int, int>();
             ResetChanceCards();
             ResetCommunityChestCards();
@@ -160,17 +162,14 @@ namespace MonopolySimulation
         public void Step()
         {
             var roll = GetRoll();
-            lastTwoRolls.Enqueue(roll);
-            if (lastTwoRolls.Count == 3 && lastTwoRolls.All(t => t.Item1 == t.Item2))
+
+            doublesCount = roll.Item1 == roll.Item2 ? doublesCount + 1 : 0;
+
+            if (doublesCount == 3)
             {
-                lastTwoRolls.Clear();
+                doublesCount = 0;
                 GoToJail();
                 return;
-            }
-
-            if (lastTwoRolls.Count == 3)
-            {
-                lastTwoRolls.Dequeue();
             }
 
             square = (square + roll.Item1 + roll.Item2)%40;
